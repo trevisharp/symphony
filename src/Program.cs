@@ -48,5 +48,3 @@ processing all:
         prepend newline ENDBLOCK
 	append ENDFILE
 ";
-
-OrkestraApp.Compile(code, args);

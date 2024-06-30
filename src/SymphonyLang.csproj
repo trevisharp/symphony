@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\orkestra\src\OrkestraCore.csproj" />
+    <PackageReference Include="Orkestra" Version="0.5.0" />
   </ItemGroup>
 
 </Project>
