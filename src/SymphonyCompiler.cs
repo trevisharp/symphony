@@ -7,10 +7,10 @@ public class SymphonyCompiler : Compiler
     Key kENDBLOCK = auto("ENDBLOCK");
 
     // processing keys
-    Key kPROCESSING = keyword("PROCESSING", "processing");
-    Key kNEWLINE = keyword("NEWLINE", "newline");
-    Key kTAB = keyword("TAB", "tab");
-    Key kSPACE = keyword("SPACE", "space");
+    Key kPROCESSING = "processing";
+    Key kNEWLINE = "newline";
+    Key kTAB = "tab";
+    Key kSPACE = "space";
     Key kALL = contextual("all");
     Key kLINE = contextual("line");
     Key kCHARACTER = contextual("character");
@@ -24,69 +24,69 @@ public class SymphonyCompiler : Compiler
     Key kREPLACE = contextual("replace");
     
     // type keys
-    Key kINT = keyword("int");
-    Key kBOOL = keyword("bool");
-    Key kSTRING = keyword("string");
-    Key kCHAR = keyword("char");
-    Key kDECIMAL = keyword("decimal");
-    Key kDOUBLE = keyword("double");
-    Key kFLOAT = keyword("float");
-    Key kANY = keyword("any");
-    Key kTUPLE = keyword("tuple");
-    Key kLIST = keyword("list");
-    Key kMAP = keyword("map");
+    Key kINT = "int";
+    Key kBOOL = "bool";
+    Key kSTRING = "string";
+    Key kCHAR = "char";
+    Key kDECIMAL = "decimal";
+    Key kDOUBLE = "double";
+    Key kFLOAT = "float";
+    Key kANY = "any";
+    Key kTUPLE = "tuple";
+    Key kLIST = "list";
+    Key kMAP = "map";
 
     // arithmetic keys
-    Key kEQUAL = keyword("EQUAL", "=");
-    Key kOPSUM = keyword("OPSUM", "\\+");
-    Key kOPSUB = keyword("OPSUB", "\\-");
-    Key kOPMUL = keyword("OPMUL", "\\*");
-    Key kOPDIV = keyword("OPDIV", "\\/");
-    Key kOPMOD = keyword("OPMOD", "\\%");
-    Key kOPPOW = keyword("OPPOW", "\\^");
-    Key kIS = keyword("is");
-    Key kIN = keyword("in");
-    Key kNOT = keyword("not");
-    Key kBIGGEREQUAL = keyword("BIGGEREQUAL", ">=");
-    Key kSMALLEREQUAL = keyword("SMALLEREQUAL", "<=");
-    Key kBIGGER = keyword("BIGGER", ">");
-    Key kSMALLER = keyword("SMALLER", "<");
-    Key kAND = keyword("and");
-    Key kOR = keyword("or");
-    Key kXOR = keyword("xor");
+    Key kEQUAL = "=";
+    Key kOPSUM = "\\+";
+    Key kOPSUB = "\\-";
+    Key kOPMUL = "\\*";
+    Key kOPDIV = "\\/";
+    Key kOPMOD = "\\%";
+    Key kOPPOW = "\\^";
+    Key kIS = "is";
+    Key kIN = "in";
+    Key kNOT = "not";
+    Key kBIGGEREQUAL = ">=";
+    Key kSMALLEREQUAL = "<=";
+    Key kBIGGER = ">";
+    Key kSMALLER = "<";
+    Key kAND = "and";
+    Key kOR = "or";
+    Key kXOR = "xor";
 
     // code flow keys
-    Key kIF = keyword("if");
-    Key kELSE = keyword("else");
-    Key kFOR = keyword("for");
-    Key kWHILE = keyword("while");
-    Key kRETURN = keyword("return");
-    Key kPRINT = keyword("print");
+    Key kIF = "if";
+    Key kELSE = "else";
+    Key kFOR = "for";
+    Key kWHILE = "while";
+    Key kRETURN = "return";
+    Key kPRINT = "print";
 
     // error keywrods
-    Key kTHROW = keyword("throw");
+    Key kTHROW = "throw";
 
     // symbol keys
-    Key kOPENPARENTHESES = keyword("OPENPARENTHESES", "\\(");
-    Key kCLOSEPARENTHESES = keyword("CLOSEPARENTHESES", "\\)");
-    Key kOPENBRACES = keyword("OPENBRACES", "\\{");
-    Key kCLOSEBRACES = keyword("CLOSEBRACES", "\\}");
-    Key kOPENBRACKETS = keyword("OPENBRACKETS", "\\[");
-    Key kCLOSEBRACKETS = keyword("CLOSEBRACKETS", "\\]");
+    Key kOPENPARENTHESES = "\\(";
+    Key kCLOSEPARENTHESES = "\\)";
+    Key kOPENBRACES = "\\{";
+    Key kCLOSEBRACES = "\\}";
+    Key kOPENBRACKETS = "\\[";
+    Key kCLOSEBRACKETS = "\\]";
 
-    Key kDOUBLEDOT = keyword("DOUBLEDOT", ":");
-    Key kKEY = keyword("key");
-    Key kCONTEXTUAL = keyword("contextual");
-    Key kNULLVALUE = keyword("null");
+    Key kDOUBLEDOT = ":";
+    Key kKEY = "key";
+    Key kCONTEXTUAL = "contextual";
+    Key kNULLVALUE = "null";
 
     // value keys
-    Key kCOMMA = key("COMMA", ",");
-    Key kINTVALUE = key("INTVALUE", "(\\+|\\-)?[0-9][0-9]*");
-    Key kSTRINGVALUE = key("STRINGVALUE", "\".*?\"");
-    Key kBOOLVALUE = key("BOOLVALUE", "(true)|(false)");
+    Key kCOMMA = ",";
+    Key kINTVALUE = "(\\+|\\-)?[0-9][0-9]*";
+    Key kSTRINGVALUE = "\".*?\"";
+    Key kBOOLVALUE = "(true)|(false)";
 
-    Key kEXPRESSION = key("EXPRESSION", "\\/.*?\\/");
-    Key kID = identity("ID", "[A-Za-z_][A-Za-z0-9_]*");
+    Key kEXPRESSION = "\\/.*?\\/";
+    Key kID = identity("[A-Za-z_][A-Za-z0-9_]*");
 
     Rule rKey;
     Rule rIdentity;
