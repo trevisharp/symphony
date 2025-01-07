@@ -1,50 +1,23 @@
-import errors
-
-# auto keywords
 keyword ENDFILE
 keyword ENDLINE
-keyword STARTBLOCK
-keyword ENDBLOCK
 
-processing all:
-	int level = 0
-	int current = 0
-	bool emptyline = true
+processing FindLines()
+{
+	processing line
+	{
+		hasCode = false
 
-	processing line:
-		emptyline = true
-		current = 0
+		processing character
+		{
+			if character is space or tab or '{' or '}' => continue
 
-		processing character:
-			if character is "\35":
-				discard
-			if character not is tab and character not is newline and character not is space:
-				emptyline = false
-		
-		if emptyline:
-			skip
-		
-		processing character:
-            if character is tab:
-                current += 4
-            else if character is space:
-                current += 1
-            else:
-                break
+			hasCode = true
+			break
+		}
 
-    	if current > level + 4:
-			throw TabulationError
+		if not hasCode => continue
 
-		if current > level:
-			level = current
-			prepend newline STARTBLOCK
-		
 		append ENDLINE
-
-		while level > current:
-			level -= 4
-			prepend newline ENDBLOCK
-    while level > current:
-        level -= 4
-        prepend newline ENDBLOCK
+	}
 	append ENDFILE
+}
