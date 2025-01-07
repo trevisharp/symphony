@@ -1,27 +1,27 @@
 public class SymphonyCompiler : Compiler
 {
     // auto keys
-    Key kENDFILE = auto("ENDFILE");
-    Key kENDLINE = auto("ENDLINE");
-    Key kSTARTBLOCK = auto("STARTBLOCK");
-    Key kENDBLOCK = auto("ENDBLOCK");
+    Key kENDFILE = "ENDFILE";
+    Key kENDLINE = "ENDLINE";
+    Key kSTARTBLOCK = "STARTBLOCK";
+    Key kENDBLOCK = "ENDBLOCK";
 
     // processing keys
     Key kPROCESSING = "processing";
     Key kNEWLINE = "newline";
     Key kTAB = "tab";
     Key kSPACE = "space";
-    Key kALL = contextual("all");
-    Key kLINE = contextual("line");
-    Key kCHARACTER = contextual("character");
-    Key kCONTINUE = contextual("continue");
-    Key kSKIP = contextual("skip");
-    Key kNEXT = contextual("next");
-    Key kBREAK = contextual("break");
-    Key kDISCARD = contextual("discard");
-    Key kAPPEND = contextual("append");
-    Key kPREPEND = contextual("prepend");
-    Key kREPLACE = contextual("replace");
+    Key kALL = "all";
+    Key kLINE = "line";
+    Key kCHARACTER = "character";
+    Key kCONTINUE = "continue";
+    Key kSKIP = "skip";
+    Key kNEXT = "next";
+    Key kBREAK = "break";
+    Key kDISCARD = "discard";
+    Key kAPPEND = "append";
+    Key kPREPEND = "prepend";
+    Key kREPLACE = "replace";
     
     // type keys
     Key kINT = "int";
@@ -86,7 +86,7 @@ public class SymphonyCompiler : Compiler
     Key kBOOLVALUE = "(true)|(false)";
 
     Key kEXPRESSION = "\\/.*?\\/";
-    Key kID = identity("[A-Za-z_][A-Za-z0-9_]*");
+    Key kID = "[A-Za-z_][A-Za-z0-9_]*";
 
     Rule rKey;
     Rule rIdentity;
@@ -128,11 +128,6 @@ public class SymphonyCompiler : Compiler
     Rule rProcessing;
 
     Processing processing1;
-
-    Error TabulationError = new Error()
-    {
-        Title = "TabulationError"
-    };
 
     public SymphonyCompiler()
     {
