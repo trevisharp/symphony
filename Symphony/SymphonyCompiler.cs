@@ -1,3 +1,5 @@
+namespace Symphony;
+
 public class SymphonyCompiler : Compiler
 {
     // auto keys

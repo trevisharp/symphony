@@ -1,1 +1,0 @@
-﻿SymphonyCLI.Run(args);
