@@ -1,39 +1,27 @@
 compiler SymphonyCompiler {
 	
 	contextual {
-		/line/ /character/
-		/is/ /append/ /prepend/ /replace/
-		/space/ /newline/ /tab/
-		/discard/ /continue/ /break/
-		/compiler/ /key/ /contextual/
+		/key/
 	}
 
 	identity /[A-Za-z_][A-Za-z_0-9]*/
 
 	key {
 		EXPRESSION = //.*?//
-		STRINGVALUE = /\".*?\"/
-		INTEGERVALUE = /[+-]?[0-9]+/
-		DOUBLEVALUE = /[+-]?[0-9]*"."[0-9]+/
-		CHARVALUE = /\'.\'/
-		BOOLVALUE = /[true|false]/
 	}
 
 	rule {
-		blockStart = ENDLINE? /{/ ENDLINE?
-		blockEnd = /}/ ENDLINE?
-
 		identityKey = /identity/ EXPRESSION
 
 		key = /key/ identity /=/ EXPRESSION
-		keyBlock = /key/ blockStart (identity /=/ EXPRESSION ENDLINE?)* blockEnd
+		keyBlock = /key/ /{/ (identity /=/ EXPRESSION)* /}/
 
 		contextual = /contextual/ EXPRESSION
-		contextualBlock = /contextual/ blockStart (EXPRESSION ENDLINE?)* blockEnd
+		contextualBlock = /contextual/ /{/ (EXPRESSION)* /}/
 
 		compilerItem = [ identityKey key keyBlock contextual contextualBlock ]
 		compilerBody = compilerItem*
-		compiler = /compiler/ identity blockStart compilerBody blockEnd
+		compilerDef = /compiler/ identity /{/ compilerBody /}/
 	}
 
 	start rule program

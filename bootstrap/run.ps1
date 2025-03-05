@@ -1,0 +1,1 @@
+.\compiler\Symphony.exe run
