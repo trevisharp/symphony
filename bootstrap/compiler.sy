@@ -1,192 +1,40 @@
-include keys
-include processings
-
-compiler SymphonyCompiler
-{
-	processing FindLines()
-	processing LineComment("::")
-
-	contextual /line/ /character/ 
-	contextual /is/ /append/ /prepend/ /replace/
-	contextual /space/ /newline/ /tab/
-	contextual /discard/ /skip/ /next/ /continue/ /break/
+compiler SymphonyCompiler {
+	
+	contextual {
+		/line/ /character/
+		/is/ /append/ /prepend/ /replace/
+		/space/ /newline/ /tab/
+		/discard/ /continue/ /break/
+		/compiler/ /key/ /contextual/
+	}
 
 	identity /[A-Za-z_][A-Za-z_0-9]*/
-	key EXPRESSION = //.*?//
-	key STRINGVALUE = /\".*?\"/
-	key INTEGERVALUE = /[+-]?[0-9]+/
-	key DOUBLEVALUE = /[+-]?[0-9]*"."[0-9]+/
-	key CHARVALUE = /\'.\'/
-	key BOOLVALUE = /[true|false]/
 
-	rule basetype = 
-		'int' | 'string' | 'decimal' | 'float' |
-		'double' | 'bool' | 'char' | 'any'
+	key {
+		EXPRESSION = //.*?//
+		STRINGVALUE = /\".*?\"/
+		INTEGERVALUE = /[+-]?[0-9]+/
+		DOUBLEVALUE = /[+-]?[0-9]*"."[0-9]+/
+		CHARVALUE = /\'.\'/
+		BOOLVALUE = /[true|false]/
+	}
 
-	rule typeCollection = [type ',']? type
+	rule {
+		blockStart = ENDLINE? /{/ ENDLINE?
+		blockEnd = /}/ ENDLINE?
 
-	rule array = type '[' ']'
+		identityKey = /identity/ EXPRESSION
 
-	rule genericType = type '<' typeCollection '>'
+		key = /key/ identity /=/ EXPRESSION
+		keyBlock = /key/ blockStart (identity /=/ EXPRESSION ENDLINE?)* blockEnd
 
-	rule type = basetype | identity | array | genericType
+		contextual = /contextual/ EXPRESSION
+		contextualBlock = /contextual/ blockStart (EXPRESSION ENDLINE?)* blockEnd
 
-	rule dataCollection = [data ',']? data
+		compilerItem = [ identityKey key keyBlock contextual contextualBlock ]
+		compilerBody = compilerItem*
+		compiler = /compiler/ identity blockStart compilerBody blockEnd
+	}
 
-	rule listValue = '[' dataCollection? ']'
-
-	rule condition:
-		BOOLVALUE
-		data 'is' data
-		data 'not' IS data
-		data 'in' data
-		data '<' data
-		data '<=' data
-		data '>' data
-		data '>=' data
-		condition 'and' condition
-		condition 'or' condition
-		condition 'xor' condition
-		'not' condition
-		'(' condition ')'
-		
-	rule functionCall:
-		data '(' dataCollection? ')'
-		
-	rule indexer:
-		data '[' data ']'
-
-	rule data:
-		data operation data
-		'+' data
-		'-' data
-		INTEGERVALUE
-		DOUBLEVALUE
-		STRINGVALUE
-		CHARVALUE
-		EXPRESSION
-		'null'
-		condition
-		functionCall
-		collection
-		indexer
-		data '.' identity
-		'newline'
-		'space'
-		'tab'
-		'(' data ')'
-		identity
-	rule text: [ data ]
-
-	rule if: 'if' condition ':' ENDLINE commandBlock
-
-	rule elseif: 'else' 'if' condition ':' ENDLINE commandBlock elseif?
-
-	rule else: 'else' ':' ENDLINE commandBlock
-
-	rule ifstructure: if [elseif]? else?
-
-	rule operation: { '+' '-' '*' '/' '%' '^' }
-
-	rule print: 'print' text
-
-	rule parse: 'parse' data
-
-	rule variable: type identity ('=' data)?
-
-	rule loop:
-		'for' identity 'in' collection ':' ENDLINE commandBlock
-		'for' type identity 'in' collection ':' ENDLINE commandBlock
-		'while' condition ':' ENDLINE commandBlock
-
-	rule throw: 'throw' identity
-
-	rule command:
-		functionCall ENDLINE
-		identity '=' data ENDLINE
-		identity operation '=' data ENDLINE
-		'return' data ENDLINE
-		print ENDLINE
-		parse ENDLINE
-		'break' ENDLINE
-		'continue' ENDLINE
-		variable ENDLINE
-		ifstructure
-		throw
-		loop
-
-	rule commandBlock: STARTBLOCK [command] ENDBLOCK
-
-	rule processingCommand inherits command:
-		'complete'
-		'discard'
-		'append' text
-		'preprend' text
-		'replace' text
-		processing
-
-	rule processingCommandBlock: STARTBLOCK [processingCommand] ENDBLOCK
-
-	rule processingType: { 'all' 'line' 'character' }
-
-	rule processing: 
-		'processing' processingType ':' ENDLINE processingCommandBlock
-
-	rule key: 'contextual'? 'identity'? 'key' ID ('=' EXPRESSION)? ENDLINE
-
-	rule ruleelement:
-		[{ 'identity' identity }] ENDLINE
-
-	rule rule:
-		'rule' identity ':' ENDLINE STARTBLOCK [ruleelement] ENDBLOCK
-		'rule' identity
-
-	rule startrule: 'start' 'rule' ':' ENDLINE
-
-	rule reference:
-		identity '.' reference
-		identity
-
-	rule using:
-		'using' reference ENDLINE
-
-	rule include:
-		'include' reference ENDLINE
-
-	rule import:
-		'import' reference ENDLINE
-
-	rule element:
-		[{key rule startrule variable function using include import error}]
-
-	rule doctreevalue: 'open' data
-
-	rule paramcollection:
-		variable ',' paramcollection
-		variable
-
-	rule lambda:
-		'=>' data
-		'=>' command
-
-	rule codedefinition:
-		ENDLINE commandBlock
-		lambda
-		ENDLINE STARTBLOCK lambda ENDBLOCK
-
-	rule function:
-		'function' identity '(' ')' codedefinition
-		'function' identity '(' paramcollection ')' codedefinition
-		'function' type identity '(' ')' codedefinition
-		'function' type identity '(' paramcollection ')' codedefinition
-		'function' identity '(' ')' ENDLINE
-		'function' identity '(' paramcollection ')' ENDLINE
-		'function' type identity '(' ')' ENDLINE
-		'function' type identity '(' paramcollection ')' ENDLINE
-
-	rule error:
-		'error' identity
-
-	rule orkestraCode:
-		element ENDFILE?
+	start rule program
 }

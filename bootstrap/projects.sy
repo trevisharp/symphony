@@ -1,6 +1,0 @@
-include compiler
-
-project SymphonyProject
-{
-    compile *.sy with SymphonyCompiler 
-}
