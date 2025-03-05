@@ -1,1 +1,1 @@
-.\compiler\Symphony.exe run
+.\compiler\Symphony.exe run --verbose max

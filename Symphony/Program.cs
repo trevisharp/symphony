@@ -1,1 +1,3 @@
-﻿Tech.Run(args);
+﻿Tech.ConfigureProject("*.sy");
+
+Tech.Run(args);
